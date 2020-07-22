@@ -15,13 +15,23 @@ namespace RuleEnginePattern.Tests
         }
 
         [Test]
-        public void ReturnActivePromotionForSKUId_A()
+        public void A3()
         {
-            string skuId = "A";
+            string skuId = "A,A,A";
 
             long activePromotionDiscount = _calculator.CalculateDiscountPercentage(skuId);
 
             Assert.AreEqual(130, activePromotionDiscount);
+        }
+
+        [Test]
+        public void A2()
+        {
+            string skuId = "A,A";
+
+            long activePromotionDiscount = _calculator.CalculateDiscountPercentage(skuId);
+
+            Assert.AreEqual(100, activePromotionDiscount);
         }
 
         [Test]
