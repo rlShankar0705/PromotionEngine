@@ -1,0 +1,25 @@
+################################################################################
+# This .gitignore file was automatically created by Microsoft(R) Visual Studio.
+################################################################################
+
+/src/PromotionEngineSin/RuleEnginePattern/obj/Debug/netcoreapp3.0
+/src/PromotionEngineSin/.vs/PromotionEngineSin/v16/Server/sqlite3
+_ReSharper.*
+bin/
+obj/
+*.user
+*.suo
+*~
+*.swp
+*.orig
+*.nupkg
+*.cache
+src/packages/*
+PackageBuild/*
+Build/*
+*.mdf
+*.ldf
+*.sdf
+*.vsdoc
+TestResult.xml
+*.DotSettings
