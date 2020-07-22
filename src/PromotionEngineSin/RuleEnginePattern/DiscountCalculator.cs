@@ -27,7 +27,7 @@ namespace RuleEnginePattern
 
                 if (selectedSKUId.SKUId.Equals(skuId, StringComparison.InvariantCultureIgnoreCase))
                 {
-                    if (selectedSKUId.DiscountOnUnitCount >= discountOnUnitCount
+                    if (discountOnUnitCount >= selectedSKUId.DiscountOnUnitCount
                      && selectedSKUId.IsCombinationDiscount == false)
                     {
                         if (selectedSKUId.DiscountOnUnitCount == discountOnUnitCount)
@@ -36,7 +36,19 @@ namespace RuleEnginePattern
                         }
                         else
                         {
+                            if (discountOnUnitCount > selectedSKUId.DiscountOnUnitCount)
+                            {
+                                totalPrice = totalPrice + selectedSKUId.DiscountUnitPrice;
+                            }
+                            else
+                            {
+                                var sku = new SKU();
+                                var skuIdItem = sku.GETUnitPriceForSKUID()
+                                    .Where(x => x.SKUId.Equals(skuId, StringComparison.InvariantCultureIgnoreCase))
+                                    .FirstOrDefault();
 
+                                totalPrice = totalPrice + (skuIdItem.AmountPerUnit * discountOnUnitCount);
+                            }
                         }
                     }
                     else
