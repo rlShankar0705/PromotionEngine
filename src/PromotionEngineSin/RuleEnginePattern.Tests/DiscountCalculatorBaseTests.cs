@@ -15,6 +15,36 @@ namespace RuleEnginePattern.Tests
         }
 
         [Test]
+        public void S1()
+        {
+            string skuId = "A,B,C";
+
+            long activePromotionDiscount = _calculator.CalculateDiscountPercentage(skuId);
+
+            Assert.AreEqual(100, activePromotionDiscount);
+        }
+
+        [Test]
+        public void S2()
+        {
+            string skuId = "A,A,A,A,A,B,B,B,B,B,C";
+
+            long activePromotionDiscount = _calculator.CalculateDiscountPercentage(skuId);
+
+            Assert.AreEqual(370, activePromotionDiscount);
+        }
+
+        [Test]
+        public void S3()
+        {
+            string skuId = "A,A,A,,B,B,B,B,B,C,D";
+
+            long activePromotionDiscount = _calculator.CalculateDiscountPercentage(skuId);
+
+            Assert.AreEqual(280, activePromotionDiscount);
+        }
+
+        [Test]
         public void A3()
         {
             string skuId = "A,A,A";
