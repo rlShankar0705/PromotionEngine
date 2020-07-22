@@ -27,8 +27,7 @@ namespace RuleEnginePattern
 
                 if (selectedSKUId.SKUId.Equals(skuId, StringComparison.InvariantCultureIgnoreCase))
                 {
-                    if (discountOnUnitCount >= selectedSKUId.DiscountOnUnitCount
-                     && selectedSKUId.IsCombinationDiscount == false)
+                    if (selectedSKUId.IsCombinationDiscount == false)
                     {
                         if (selectedSKUId.DiscountOnUnitCount == discountOnUnitCount)
                         {
@@ -36,24 +35,59 @@ namespace RuleEnginePattern
                         }
                         else
                         {
+                            var skuIdItem = this.GetSelectedSKUId(skuId);
+
                             if (discountOnUnitCount > selectedSKUId.DiscountOnUnitCount)
                             {
-                                totalPrice = totalPrice + selectedSKUId.DiscountUnitPrice;
+                                int v = discountOnUnitCount / selectedSKUId.DiscountOnUnitCount;
+                                totalPrice = totalPrice + (v * selectedSKUId.DiscountUnitPrice);
+
+                                if (discountOnUnitCount % selectedSKUId.DiscountOnUnitCount != 0)
+                                {
+                                    totalPrice = totalPrice + (skuIdItem.AmountPerUnit * (discountOnUnitCount % selectedSKUId.DiscountOnUnitCount));
+                                }
                             }
                             else
                             {
-                                var sku = new SKU();
-                                var skuIdItem = sku.GETUnitPriceForSKUID()
-                                    .Where(x => x.SKUId.Equals(skuId, StringComparison.InvariantCultureIgnoreCase))
-                                    .FirstOrDefault();
-
                                 totalPrice = totalPrice + (skuIdItem.AmountPerUnit * discountOnUnitCount);
                             }
                         }
                     }
                     else
                     {
+                        var combinationSKUIds = selectedSKUId.CombinationSKUIds.Split(',');
 
+                        var pre = skuIdCounts.Where(x => x.Key.ToString()
+                                  .Equals(combinationSKUIds[combinationSKUIds.Count() - 1], StringComparison.InvariantCultureIgnoreCase))
+                                  .FirstOrDefault();
+
+                        if (pre.Value > 0)
+                        {
+                            totalPrice = totalPrice + selectedSKUId.DiscountUnitPrice;
+
+                            var c1 = skuIdCounts.FirstOrDefault(x => x.Key.ToString() == skuId.ToString()).Value;
+
+                            if (c1 > 1)
+                            {
+                                var skuIdItem = this.GetSelectedSKUId(skuId.ToString());
+                                totalPrice = totalPrice + ((c1 - 1) * skuIdItem.AmountPerUnit);
+                            }
+
+                            var c2 = skuIdCounts.FirstOrDefault(x => x.Key.ToString() == pre.Key.ToString()).Value;
+
+                            if (c2 > 1)
+                            {
+                                var skuIdItem = this.GetSelectedSKUId(pre.Key.ToString());
+                                totalPrice = totalPrice + ((c2 - 1) * skuIdItem.AmountPerUnit);
+                            }
+
+                            break;
+                        }
+                        else
+                        {
+                            var skuIdItem = this.GetSelectedSKUId(skuId);
+                            totalPrice = totalPrice + skuIdItem.AmountPerUnit;
+                        }
                     }
                 }
                 else
@@ -64,10 +98,13 @@ namespace RuleEnginePattern
 
             return totalPrice;
         }
+
+        public SKU GetSelectedSKUId(string skuId)
+        {
+            var sku = new SKU();
+            return sku.GETUnitPriceForSKUID()
+                 .Where(x => x.SKUId.Equals(skuId, StringComparison.InvariantCultureIgnoreCase))
+                 .FirstOrDefault();
+        }
     }
 }
-
-
-________________________________________
-
-*** CONFIDENTIALITY NOTICE : This electronic transmission and any documents or other writings sent with it constitute confidential information, which is intended only for the named recipient.If you are not the intended recipient, please reply to the sender that you have received the message in error and delete it.Any disclosure, copying, distribution or the taking of any action concerning the contents of this communication or any attachment(s) by anyone other than the intended recipient is strictly prohibited. ***
