@@ -13,7 +13,7 @@ namespace RuleEngineDatabase
             items.Add(new SKU() { SKUId = "A", AmountPerUnit = 50 });
             items.Add(new SKU() { SKUId = "B", AmountPerUnit = 30 });
             items.Add(new SKU() { SKUId = "C", AmountPerUnit = 20 });
-            items.Add(new SKU() { SKUId = "D", AmountPerUnit = 10 });
+            items.Add(new SKU() { SKUId = "D", AmountPerUnit = 15 });
 
             return items;
         }
