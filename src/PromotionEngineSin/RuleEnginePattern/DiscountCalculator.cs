@@ -1,4 +1,5 @@
-﻿using System;
+﻿using RuleEngineDatabase;
+using System;
 
 namespace RuleEnginePattern
 {
@@ -6,7 +7,11 @@ namespace RuleEnginePattern
     {
         public long CalculateDiscountPercentage(string skuId)
         {
-            throw new NotImplementedException();
+            var activePromotion = new ActivePromotion();
+            var listOfActivePromotion = activePromotion.GetActivePromotion();
+
+
+            return 0;
         }
     }
 }
