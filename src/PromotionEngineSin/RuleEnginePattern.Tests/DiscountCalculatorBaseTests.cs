@@ -35,6 +35,16 @@ namespace RuleEnginePattern.Tests
         }
 
         [Test]
+        public void CombineA3B2()
+        {
+            string skuId = "A,A,A,B,B";
+
+            long activePromotionDiscount = _calculator.CalculateDiscountPercentage(skuId);
+
+            Assert.AreEqual(175, activePromotionDiscount);
+        }
+
+        [Test]
         public void ReturnActivePromotionForSKUId_B()
         {
             string skuId = "B";

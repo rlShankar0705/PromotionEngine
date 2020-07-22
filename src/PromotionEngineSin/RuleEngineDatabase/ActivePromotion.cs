@@ -45,7 +45,7 @@ namespace RuleEngineDatabase
             });
             items.Add(new ActivePromotion()
             {
-                SKUId = "A",
+                SKUId = "D",
                 DiscountOnUnitCount = 0,
                 DiscountUnitPrice = 30,
                 IsCombinationDiscount = true,
